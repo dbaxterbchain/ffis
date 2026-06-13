@@ -8,6 +8,7 @@ import LotusMotif from './LotusMotif.astro';
   <div class="hero__bg" aria-hidden="true">
     <span class="hero__glow"></span>
     <LotusMotif class="hero__lotus" stroke={2.5} center={false} />
+    <span class="hero__scrim"></span>
   </div>
 
   <div class="container hero__inner">
@@ -62,8 +63,31 @@ import LotusMotif from './LotusMotif.astro';
     width: min(64vh, 640px);
     height: auto;
     color: #fff;
-    opacity: 0.12;
+    opacity: 0.1;
     transform: translateY(-50%);
+  }
+  /* Darkens the text column so white copy stays legible where the white
+     lotus and lighter (magenta) end of the gradient sit behind it. */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      rgba(11, 31, 102, 0.72) 0%,
+      rgba(11, 31, 102, 0.5) 44%,
+      rgba(11, 31, 102, 0.12) 66%,
+      rgba(11, 31, 102, 0) 80%
+    );
+  }
+  @media (max-width: 880px) {
+    .hero__scrim {
+      background: linear-gradient(
+        165deg,
+        rgba(11, 31, 102, 0.55) 0%,
+        rgba(11, 31, 102, 0.3) 45%,
+        rgba(11, 31, 102, 0) 80%
+      );
+    }
   }
   .hero__glow {
     position: absolute;

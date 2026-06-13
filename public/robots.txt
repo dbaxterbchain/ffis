@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.innovationinsociety.org/sitemap-index.xml
+Sitemap: https://foundationforinnovationinsociety.org/sitemap-index.xml

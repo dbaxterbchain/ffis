@@ -17,7 +17,7 @@ export const site = {
   name: 'Foundation for Innovation in Society',
   shortName: 'FFIS',
   /** Used for canonical + OG; keep in sync with `site` in astro.config.mjs. */
-  url: 'https://www.innovationinsociety.org',
+  url: 'https://foundationforinnovationinsociety.org',
   tagline:
     'Innovation is the process of creating value by applying novel solutions to meaningful problems.',
   description:
