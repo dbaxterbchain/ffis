@@ -1,0 +1,68 @@
+---
+import type { FoodFactor } from '../data/foodFactors';
+
+type Props = FoodFactor & { class?: string };
+
+const { figure, label, detail, class: className } = Astro.props;
+---
+
+<article class:list={['stat', className]}>
+  {
+    figure ? (
+      <p class="stat__figure">{figure}</p>
+    ) : (
+      <span class="stat__bar" aria-hidden="true" />
+    )
+  }
+  <h3 class="stat__label">{label}</h3>
+  <p class="stat__detail">{detail}</p>
+</article>
+
+<style>
+  .stat {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+  .stat:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .stat__figure {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 1.8rem + 2.5vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: var(--tracking-tight);
+    background: var(--grad-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: var(--space-4);
+  }
+  .stat__bar {
+    width: 44px;
+    height: 5px;
+    border-radius: var(--radius-pill);
+    background: var(--grad-accent);
+    margin-bottom: var(--space-4);
+  }
+  .stat__label {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-3);
+  }
+  .stat__detail {
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-snug);
+  }
+</style>

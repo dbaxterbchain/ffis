@@ -1,0 +1,14 @@
+{
+  "name": "Foundation for Innovation in Society",
+  "short_name": "FFIS",
+  "description": "An Arizona 501(c)(3) nonprofit applying novel solutions to meaningful problems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8fc",
+  "theme_color": "#142d8c",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

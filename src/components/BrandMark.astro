@@ -1,0 +1,68 @@
+---
+/**
+ * Brand lockup: lotus mark + wordmark. Inherits `color` (currentColor) so the
+ * header can flip it light/dark by scroll state. Renders a link by default.
+ *
+ * TODO(assets): swap the lotus + text lockup for the official logo vector.
+ */
+import LotusMotif from './LotusMotif.astro';
+
+interface Props {
+  href?: string | null;
+  class?: string;
+}
+
+const { href = '/', class: className } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  class:list={['brand', className]}
+  href={href ?? undefined}
+  aria-label="Foundation for Innovation in Society — home"
+>
+  <LotusMotif class="brand__mark" stroke={6} />
+  <span class="brand__text" aria-hidden="true">
+    <span class="brand__kicker">Foundation for</span>
+    <span class="brand__name">Innovation in Society</span>
+  </span>
+</Tag>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: inherit;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .brand:hover {
+    text-decoration: none;
+  }
+  .brand__mark {
+    width: 2.4rem;
+    height: auto;
+    flex: none;
+  }
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .brand__kicker {
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .brand__name {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+  }
+</style>

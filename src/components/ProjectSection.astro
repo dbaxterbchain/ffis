@@ -1,0 +1,24 @@
+---
+/**
+ * Semantic, anchored section wrapper with consistent padding + container.
+ * Pair `labelledby` with the id of the SectionHeading's title for a11y.
+ */
+interface Props {
+  id: string;
+  labelledby?: string;
+  alt?: boolean;
+  class?: string;
+}
+
+const { id, labelledby, alt = false, class: className } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['section', { 'section-alt': alt }, className]}
+  aria-labelledby={labelledby}
+>
+  <div class="container">
+    <slot />
+  </div>
+</section>

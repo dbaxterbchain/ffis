@@ -1,0 +1,29 @@
+# build output
+dist/
+
+# dependencies
+node_modules/
+
+# astro generated types & cache
+.astro/
+
+# netlify
+.netlify/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+
+# claude local settings
+.claude/settings.local.json

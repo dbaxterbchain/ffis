@@ -1,0 +1,64 @@
+---
+import type { Quote } from '../data/quotes';
+
+type Props = Omit<Quote, 'id'> & { class?: string };
+
+const { text, author, role, class: className } = Astro.props;
+---
+
+<figure class:list={['quote', className]}>
+  <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+  <blockquote class="quote__text">{text}</blockquote>
+  <figcaption class="quote__cite">
+    <span class="quote__author">{author}</span>
+    {role && <span class="quote__role">{role}</span>}
+  </figcaption>
+</figure>
+
+<style>
+  .quote {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-6);
+    padding-top: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+  .quote__mark {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 0.7;
+    height: 2.2rem;
+    background: var(--grad-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .quote__text {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-style: italic;
+    font-size: var(--fs-h3);
+    line-height: var(--lh-snug);
+    color: var(--color-heading);
+    margin-bottom: var(--space-5);
+  }
+  .quote__cite {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: auto;
+  }
+  .quote__author {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .quote__role {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+</style>

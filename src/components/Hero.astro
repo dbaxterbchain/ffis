@@ -1,0 +1,172 @@
+---
+import Button from './Button.astro';
+import DonateButton from './DonateButton.astro';
+import LotusMotif from './LotusMotif.astro';
+---
+
+<section class="hero" id="top">
+  <div class="hero__bg" aria-hidden="true">
+    <span class="hero__glow"></span>
+    <LotusMotif class="hero__lotus" stroke={2.5} center={false} />
+  </div>
+
+  <div class="container hero__inner">
+    <p class="hero__eyebrow">Foundation for Innovation in Society</p>
+    <h1 class="hero__title">
+      Novel solutions to <span class="hero__accent">meaningful problems</span>.
+    </h1>
+    <p class="hero__lede">
+      We create value by reimagining how communities meet their most basic
+      needs — beginning in the Phoenix Metro region with food resilience and a
+      community-wide pay-it-forward meal program.
+    </p>
+    <div class="hero__actions">
+      <DonateButton size="lg" label="Donate a meal" />
+      <Button variant="ghost" size="lg" href="#food-resilience">
+        Explore our work
+      </Button>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#mission" aria-label="Scroll to our mission">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: min(100svh, 880px);
+    padding-top: calc(var(--header-h) + var(--space-7));
+    padding-bottom: var(--space-9);
+    background: var(--grad-hero);
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .hero__lotus {
+    position: absolute;
+    top: 50%;
+    right: -6%;
+    width: min(64vh, 640px);
+    height: auto;
+    color: #fff;
+    opacity: 0.12;
+    transform: translateY(-50%);
+  }
+  .hero__glow {
+    position: absolute;
+    top: 38%;
+    right: 6%;
+    width: 40vmax;
+    height: 40vmax;
+    background: radial-gradient(
+      circle,
+      rgba(244, 183, 42, 0.5) 0%,
+      rgba(244, 183, 42, 0) 62%
+    );
+    transform: translateY(-50%);
+    opacity: 0.5;
+    filter: blur(10px);
+  }
+
+  .hero__inner {
+    position: relative;
+    max-width: 46rem;
+  }
+  .hero__eyebrow {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: var(--space-4);
+  }
+  .hero__title {
+    color: #fff;
+    font-size: var(--fs-hero);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-tight);
+    max-width: 18ch;
+  }
+  .hero__accent {
+    background: var(--grad-cta);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero__lede {
+    margin-top: var(--space-5);
+    max-width: 44rem;
+    font-size: var(--fs-lead);
+    line-height: var(--lh-snug);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+  }
+
+  .hero__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: var(--space-5);
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-pill);
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    animation: hero-bob 2.4s var(--ease) infinite;
+  }
+  .hero__scroll:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  @keyframes hero-bob {
+    0%,
+    100% {
+      transform: translate(-50%, 0);
+    }
+    50% {
+      transform: translate(-50%, 6px);
+    }
+  }
+
+  @media (max-width: 880px) {
+    .hero {
+      min-height: auto;
+      padding-block: calc(var(--header-h) + var(--space-8)) var(--space-9);
+    }
+    .hero__lotus {
+      opacity: 0.08;
+      right: -20%;
+    }
+    .hero__scroll {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scroll {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import ProjectSection from '../ProjectSection.astro';
+import SectionHeading from '../SectionHeading.astro';
+import QuoteWall from '../QuoteWall.astro';
+---
+
+<ProjectSection id="mission" labelledby="mission-title">
+  <SectionHeading
+    kicker="Why we exist"
+    titleId="mission-title"
+    title="We apply novel solutions to meaningful problems"
+  >
+    <p>
+      Innovation, to us, is the process of creating value by applying novel
+      solutions to meaningful problems. We look for the new model that makes the
+      old one obsolete — then build it alongside the people closest to the need.
+    </p>
+  </SectionHeading>
+
+  <div class="mission__quotes">
+    <QuoteWall />
+  </div>
+</ProjectSection>
+
+<style>
+  .mission__quotes {
+    margin-top: var(--space-8);
+  }
+</style>

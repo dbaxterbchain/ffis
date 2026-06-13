@@ -1,0 +1,85 @@
+---
+import DonateButton from './DonateButton.astro';
+import LotusMotif from './LotusMotif.astro';
+
+interface Props {
+  kicker?: string;
+  title: string;
+  text: string;
+  label?: string;
+  note?: string;
+  class?: string;
+}
+
+const {
+  kicker,
+  title,
+  text,
+  label = 'Donate now',
+  note,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={['donate-cta', className]}>
+  <LotusMotif class="donate-cta__lotus" stroke={2.5} center={false} />
+  <div class="donate-cta__content">
+    {kicker && <p class="donate-cta__kicker">{kicker}</p>}
+    <h2 class="donate-cta__title">{title}</h2>
+    <p class="donate-cta__text">{text}</p>
+    <DonateButton size="lg" label={label} class="donate-cta__btn" />
+    {note && <p class="donate-cta__note">{note}</p>}
+  </div>
+</div>
+
+<style>
+  .donate-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--grad-hero);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+    box-shadow: var(--shadow-lg);
+  }
+  .donate-cta__lotus {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: -3%;
+    width: min(46vh, 420px);
+    color: #fff;
+    opacity: 0.12;
+    transform: translateY(-50%);
+  }
+  .donate-cta__content {
+    max-width: 40rem;
+  }
+  .donate-cta__kicker {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--ffis-gold-400);
+    margin-bottom: var(--space-3);
+  }
+  .donate-cta__title {
+    color: #fff;
+    font-size: var(--fs-h2);
+  }
+  .donate-cta__text {
+    margin-top: var(--space-4);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-snug);
+    color: rgba(255, 255, 255, 0.86);
+  }
+  .donate-cta__btn {
+    margin-top: var(--space-6);
+  }
+  .donate-cta__note {
+    margin-top: var(--space-4);
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.7);
+  }
+</style>

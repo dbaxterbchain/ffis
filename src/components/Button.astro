@@ -1,0 +1,101 @@
+---
+/**
+ * Shared button. Renders an <a> when `href` is set, otherwise a <button>.
+ * Variants: gold (primary CTA), primary (cobalt), ghost (outline, for dark
+ * backgrounds). Any extra attributes (target, rel, aria-*, type) pass through.
+ */
+interface Props {
+  variant?: 'gold' | 'primary' | 'ghost';
+  size?: 'md' | 'lg';
+  href?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const classes = ['btn', `btn--${variant}`, `btn--${size}`, className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<Tag class={classes} href={href} {...rest}><slot /></Tag>
+
+<style>
+  .btn {
+    --btn-py: 0.7rem;
+    --btn-px: 1.45rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: var(--btn-py) var(--btn-px);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid transparent;
+    transition:
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease),
+      background-color var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .btn:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .btn--lg {
+    --btn-py: 0.95rem;
+    --btn-px: 1.9rem;
+    font-size: var(--fs-body);
+  }
+
+  /* Gold — the donate / primary-action CTA. Dark text on gold (AA). */
+  .btn--gold {
+    background: var(--grad-cta);
+    color: var(--ffis-cobalt-900);
+    box-shadow: var(--shadow-gold);
+  }
+  .btn--gold:hover {
+    box-shadow: 0 12px 30px rgba(217, 154, 18, 0.42);
+  }
+
+  /* Primary — cobalt fill. */
+  .btn--primary {
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn--primary:hover {
+    background: var(--color-primary-strong);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Ghost — outline, intended for dark/gradient backgrounds. */
+  .btn--ghost {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #fff;
+  }
+  .btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: #fff;
+  }
+</style>

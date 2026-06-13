@@ -1,0 +1,52 @@
+---
+/**
+ * Consistent section heading: optional eyebrow + H2 with a gradient underline.
+ * Optional slot renders supporting text below the heading.
+ */
+interface Props {
+  kicker?: string;
+  title: string;
+  titleId?: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { kicker, title, titleId, align = 'left', class: className } = Astro.props;
+const hasLede = Astro.slots.has('default');
+---
+
+<header class:list={['heading', `heading--${align}`, className]}>
+  {kicker && <p class="eyebrow">{kicker}</p>}
+  <h2 class="heading__title" id={titleId}>{title}</h2>
+  <span class="heading__rule" aria-hidden="true"></span>
+  {hasLede && <div class="heading__lede"><slot /></div>}
+</header>
+
+<style>
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 46rem;
+  }
+  .heading--center {
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+  }
+  .heading__title {
+    font-size: var(--fs-h2);
+  }
+  .heading__rule {
+    width: 64px;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--grad-accent);
+  }
+  .heading__lede {
+    color: var(--color-text-muted);
+    font-size: var(--fs-lead);
+    line-height: var(--lh-snug);
+    max-width: 42rem;
+  }
+</style>

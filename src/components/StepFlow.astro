@@ -1,0 +1,80 @@
+---
+import { pifSteps } from '../data/pifSteps';
+---
+
+<ol role="list" class="steps">
+  {
+    pifSteps.map((step) => (
+      <li class="step">
+        <span class="step__num" aria-hidden="true">
+          {String(step.n).padStart(2, '0')}
+        </span>
+        <h3 class="step__title">{step.title}</h3>
+        <p class="step__detail">{step.detail}</p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    counter-reset: step;
+  }
+  .step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* Connector line between steps (desktop). */
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 1.6rem;
+    left: calc(3.2rem + var(--space-3));
+    right: calc(-1 * var(--space-6));
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--ffis-magenta-500),
+      rgba(214, 36, 138, 0.15)
+    );
+  }
+  .step__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: var(--radius-pill);
+    background: var(--grad-accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--space-4);
+  }
+  .step__title {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-2);
+  }
+  .step__detail {
+    color: var(--color-text-muted);
+    line-height: var(--lh-snug);
+  }
+
+  @media (max-width: 760px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+      max-width: 30rem;
+    }
+    .step:not(:last-child)::after {
+      display: none;
+    }
+  }
+</style>

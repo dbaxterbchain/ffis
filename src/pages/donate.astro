@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import LotusMotif from '../components/LotusMotif.astro';
+import { site } from '../config/site';
+
+/*
+ * LAUNCH: when the every.org profile is ready, either
+ *   (a) point `site.donateUrl` straight at the every.org URL
+ *       (set donateIsExternal: true) and this page becomes a fallback, or
+ *   (b) embed the every.org donate button / iframe below in place of the
+ *       "launching soon" card.
+ * See: https://support.every.org/hc/en-us/articles/29989036588179
+ */
+
+const mailto = `mailto:${site.contactEmail}?subject=${encodeURIComponent(
+  'I would like to make a donation'
+)}`;
+---
+
+<BaseLayout
+  title="Donate"
+  description="Support the Foundation for Innovation in Society — a registered 501(c)(3) nonprofit applying novel solutions to meaningful problems."
+>
+  <section class="section">
+    <div class="container container-narrow donate">
+      <LotusMotif class="donate__lotus" stroke={4} />
+      <p class="eyebrow">Support our work</p>
+      <h1 class="donate__title">Online donations are launching soon</h1>
+      <p class="donate__lead">
+        We&rsquo;re finalizing our secure donation portal. In the meantime,
+        we&rsquo;d be glad to arrange a gift directly — reach out and we&rsquo;ll
+        help you pay it forward.
+      </p>
+      <div class="donate__actions">
+        <Button href={mailto} variant="gold" size="lg">Email us to donate</Button>
+        <Button href="/#pay-it-forward" variant="primary" size="lg">
+          Learn about Pay It Forward
+        </Button>
+      </div>
+      <p class="donate__note">
+        The Foundation for Innovation in Society is a registered 501(c)(3)
+        nonprofit. Donations are tax-deductible to the extent allowed by law.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .donate {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .donate__lotus {
+    width: 4.5rem;
+    color: var(--ffis-purple-600);
+    margin-bottom: var(--space-5);
+  }
+  .donate__title {
+    font-size: var(--fs-h1);
+  }
+  .donate__lead {
+    margin-top: var(--space-4);
+    font-size: var(--fs-lead);
+    color: var(--color-text-muted);
+    max-width: 50ch;
+  }
+  .donate__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+  }
+  .donate__note {
+    margin-top: var(--space-7);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    max-width: 46ch;
+  }
+</style>

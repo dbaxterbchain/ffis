@@ -1,0 +1,134 @@
+---
+import ProjectSection from '../ProjectSection.astro';
+import SectionHeading from '../SectionHeading.astro';
+import StatCard from '../StatCard.astro';
+import ChallengeList from '../ChallengeList.astro';
+import SolutionCard from '../SolutionCard.astro';
+import PullQuote from '../PullQuote.astro';
+import ContactCTA from '../ContactCTA.astro';
+import { foodFactors } from '../../data/foodFactors';
+import { foodSolutions } from '../../data/foodSolutions';
+import { einsteinQuote } from '../../data/quotes';
+---
+
+<ProjectSection id="food-resilience" labelledby="food-title" alt>
+  <SectionHeading
+    kicker="Our first project · Phoenix Metro"
+    titleId="food-title"
+    title="Community food resilience in the Valley"
+  >
+    <p>
+      Less than 1% of the food eaten across the Phoenix Metro region is grown
+      here, even as more than one in ten residents lives in poverty. Food
+      insecurity in the Valley is not one problem but many — overlapping,
+      systemic, and felt most by those with the fewest options.
+    </p>
+  </SectionHeading>
+
+  <div class="fr__block">
+    <h3 class="fr__subhead">What&rsquo;s driving it</h3>
+    <ul role="list" class="fr__stats">
+      {
+        foodFactors.map((f) => (
+          <li class="fr__cell">
+            <StatCard {...f} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="fr__block">
+    <h3 class="fr__subhead">Who it hits hardest</h3>
+    <p class="fr__note">
+      Beyond poverty, some neighbors face additional barriers that put even a
+      free meal out of reach.
+    </p>
+    <ChallengeList />
+  </div>
+</ProjectSection>
+
+<PullQuote text={einsteinQuote.text} author={einsteinQuote.author} />
+
+<ProjectSection id="food-solutions" labelledby="food-sol-title">
+  <SectionHeading
+    kicker="How we&rsquo;re approaching it"
+    titleId="food-sol-title"
+    title="Produce more, waste less, and adapt what already works"
+  >
+    <p>
+      We are exploring ways to increase local food production and design out the
+      waste built into today&rsquo;s system — building on programs already
+      proven in other cities and tailoring them to the Valley.
+    </p>
+  </SectionHeading>
+
+  <ul role="list" class="fr__solutions">
+    {
+      foodSolutions.map((s) => (
+        <li class="fr__cell">
+          <SolutionCard {...s} />
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="fr__cta">
+    <ContactCTA
+      title="Think outside the box with us"
+      text="We&rsquo;re looking for people willing to rethink how a whole community feeds itself. If that sounds like you, let&rsquo;s talk."
+      buttonLabel="Get in touch"
+    />
+  </div>
+</ProjectSection>
+
+<style>
+  .fr__block {
+    margin-top: var(--space-8);
+  }
+  .fr__subhead {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-5);
+  }
+  .fr__note {
+    margin-top: calc(-1 * var(--space-3));
+    margin-bottom: var(--space-5);
+    max-width: 54ch;
+    color: var(--color-text-muted);
+  }
+  .fr__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+  }
+  .fr__solutions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-7);
+  }
+  .fr__cell {
+    display: flex;
+  }
+  .fr__cell > :global(*) {
+    width: 100%;
+  }
+  .fr__cta {
+    margin-top: var(--space-7);
+  }
+
+  @media (max-width: 980px) {
+    .fr__stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .fr__solutions {
+      grid-template-columns: 1fr;
+      max-width: 42rem;
+    }
+  }
+  @media (max-width: 520px) {
+    .fr__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

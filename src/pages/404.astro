@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import LotusMotif from '../components/LotusMotif.astro';
+---
+
+<BaseLayout title="Page not found" description="This page could not be found.">
+  <section class="section">
+    <div class="container container-narrow notfound">
+      <LotusMotif class="notfound__lotus" stroke={4} />
+      <p class="eyebrow">Error 404</p>
+      <h1 class="notfound__title">This page wandered off</h1>
+      <p class="notfound__lead">
+        The page you&rsquo;re looking for doesn&rsquo;t exist or has moved.
+        Let&rsquo;s get you back to solid ground.
+      </p>
+      <div class="notfound__actions">
+        <Button href="/" variant="gold" size="lg">Back to home</Button>
+        <Button href="/#get-involved" variant="primary" size="lg">Get involved</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .notfound__lotus {
+    width: 4.5rem;
+    color: var(--ffis-purple-600);
+    margin-bottom: var(--space-5);
+  }
+  .notfound__title {
+    font-size: var(--fs-h1);
+  }
+  .notfound__lead {
+    margin-top: var(--space-4);
+    font-size: var(--fs-lead);
+    color: var(--color-text-muted);
+    max-width: 46ch;
+  }
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+  }
+</style>

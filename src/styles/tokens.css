@@ -1,0 +1,115 @@
+/* =====================================================================
+   FFIS design tokens
+   Brand palette derived from the lotus logo (cobalt square, magenta/purple
+   lotus, gold center). Reconcile exact hexes against the final logo art.
+   ===================================================================== */
+
+:root {
+  /* ---- Brand: cobalt (primary) ---- */
+  --ffis-cobalt-900: #0b1f66;
+  --ffis-cobalt-700: #142d8c;
+  --ffis-cobalt-600: #1e3db8;
+  --ffis-cobalt-500: #2c4fe0;
+
+  /* ---- Brand: lotus magenta / purple (accent) ---- */
+  --ffis-magenta-500: #d6248a;
+  --ffis-purple-600: #7a2fd6;
+  --ffis-purple-700: #5a1fb0;
+
+  /* ---- Brand: gold (highlight / CTA) ---- */
+  --ffis-gold-500: #f4b72a;
+  --ffis-gold-400: #ffcb52;
+  --ffis-gold-600: #d99a12;
+
+  /* ---- Neutrals / surfaces ---- */
+  --ffis-white: #ffffff;
+  --ffis-cloud: #f7f8fc;
+  --ffis-mist: #edeff7;
+  --ffis-ink: #14183b;
+  --ffis-slate: #4a4f6b;
+
+  /* ---- Signature gradients ---- */
+  --grad-hero: linear-gradient(135deg, #142d8c 0%, #5a1fb0 55%, #d6248a 100%);
+  --grad-accent: linear-gradient(90deg, #7a2fd6 0%, #d6248a 100%);
+  --grad-cta: linear-gradient(135deg, #ffcb52 0%, #f4b72a 100%);
+
+  /* ---- Semantic aliases ---- */
+  --color-bg: var(--ffis-cloud);
+  --color-surface: var(--ffis-white);
+  --color-surface-alt: var(--ffis-mist);
+  --color-text: var(--ffis-ink);
+  --color-text-muted: var(--ffis-slate);
+  --color-heading: var(--ffis-cobalt-900);
+  --color-primary: var(--ffis-cobalt-600);
+  --color-primary-strong: var(--ffis-cobalt-700);
+  --color-accent: var(--ffis-magenta-500);
+  --color-cta: var(--ffis-gold-500);
+  --color-on-dark: var(--ffis-white);
+  --color-border: rgba(20, 24, 59, 0.1);
+  --color-border-strong: rgba(20, 24, 59, 0.16);
+
+  /* ---- Typography ---- */
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+
+  --fs-hero: clamp(2.5rem, 1.55rem + 4.5vw, 4.5rem);
+  --fs-h1: clamp(2.1rem, 1.55rem + 2.6vw, 3.25rem);
+  --fs-h2: clamp(1.8rem, 1.4rem + 1.9vw, 2.7rem);
+  --fs-h3: clamp(1.3rem, 1.16rem + 0.7vw, 1.6rem);
+  --fs-quote: clamp(1.35rem, 1.05rem + 1.4vw, 2.1rem);
+  --fs-lead: clamp(1.12rem, 1.04rem + 0.4vw, 1.35rem);
+  --fs-body: 1.0625rem;
+  --fs-sm: 0.9375rem;
+  --fs-xs: 0.8125rem;
+
+  --lh-tight: 1.08;
+  --lh-heading: 1.16;
+  --lh-snug: 1.35;
+  --lh-body: 1.65;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.08em;
+
+  /* ---- Spacing (8px base) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* ---- Layout ---- */
+  --container-max: 1200px;
+  --container-narrow: 760px;
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --section-y: clamp(4rem, 3rem + 6vw, 8rem);
+  --header-h: 4.5rem;
+
+  /* ---- Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows (soft, layered; lg carries a faint purple cast) ---- */
+  --shadow-sm: 0 1px 2px rgba(20, 24, 59, 0.06), 0 1px 3px rgba(20, 24, 59, 0.1);
+  --shadow-md: 0 4px 12px rgba(20, 24, 59, 0.08),
+    0 8px 24px rgba(20, 24, 59, 0.1);
+  --shadow-lg: 0 12px 32px rgba(20, 24, 59, 0.12),
+    0 24px 48px rgba(90, 31, 176, 0.1);
+  --shadow-gold: 0 8px 24px rgba(217, 154, 18, 0.32);
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --dur: 200ms;
+  --dur-fast: 140ms;
+
+  /* ---- Z-index ---- */
+  --z-header: 100;
+  --z-overlay: 200;
+}

@@ -1,0 +1,130 @@
+---
+import BrandMark from './BrandMark.astro';
+import DonateButton from './DonateButton.astro';
+import { site } from '../config/site';
+
+const { nav, contactEmail, ein, location, name, tagline } = site;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <BrandMark href="/" />
+      <p class="site-footer__tagline">{tagline}</p>
+      <DonateButton class="site-footer__donate" label="Donate" />
+    </div>
+
+    <nav class="site-footer__col" aria-label="Footer">
+      <h2 class="site-footer__h">Explore</h2>
+      <ul role="list" class="site-footer__links">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__h">Connect</h2>
+      <ul role="list" class="site-footer__links">
+        <li><a href={`mailto:${contactEmail}`}>{contactEmail}</a></li>
+        <li><a href={site.pifUrl} target="_blank" rel="noopener noreferrer">Pay It Forward ↗</a></li>
+        {
+          site.socials.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener noreferrer">
+                {s.label} ↗
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__legal">
+    <p>&copy; {year} {name}. All rights reserved.</p>
+    <p class="site-footer__legal-note">
+      A registered 501(c)(3) nonprofit{ein ? ` · EIN ${ein}` : ''} based in {location}.
+      Donations are tax-deductible to the extent allowed by law.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ffis-cobalt-900);
+    color: rgba(255, 255, 255, 0.78);
+    padding-top: var(--space-9);
+  }
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: var(--space-7);
+    padding-bottom: var(--space-8);
+  }
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    color: #fff;
+    max-width: 32rem;
+  }
+  .site-footer__tagline {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    line-height: var(--lh-snug);
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .site-footer__donate {
+    margin-top: var(--space-2);
+  }
+  .site-footer__h {
+    font-family: var(--font-body);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: var(--space-4);
+  }
+  .site-footer__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .site-footer__links a {
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+  }
+  .site-footer__links a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-5) var(--space-6);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: var(--fs-xs);
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .site-footer__legal-note {
+    max-width: 38rem;
+  }
+
+  @media (max-width: 720px) {
+    .site-footer__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import QuoteBlock from './QuoteBlock.astro';
+import { missionQuotes } from '../data/quotes';
+---
+
+<ul role="list" class="quote-wall">
+  {
+    missionQuotes.map((q) => (
+      <li class="quote-wall__item">
+        <QuoteBlock text={q.text} author={q.author} role={q.role} />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .quote-wall {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .quote-wall__item {
+    display: flex;
+  }
+  .quote-wall__item > :global(.quote) {
+    width: 100%;
+  }
+
+  @media (max-width: 920px) {
+    .quote-wall {
+      grid-template-columns: 1fr;
+      max-width: 36rem;
+      margin-inline: auto;
+    }
+  }
+</style>

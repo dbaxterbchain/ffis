@@ -1,0 +1,45 @@
+---
+/**
+ * Decorative lotus line-art mark (the brand motif).
+ * Purely decorative -> aria-hidden. Petals use currentColor; the center
+ * dot uses --lotus-center (defaults to gold) so it can be tinted per use.
+ *
+ * TODO(assets): replace with the lotus extracted from the official logo
+ * vector once provided.
+ */
+interface Props {
+  class?: string;
+  /** Stroke width of the petals. */
+  stroke?: number;
+  /** Show the gold center dot. */
+  center?: boolean;
+}
+
+const { class: className, stroke = 5, center = true } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 200 168"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  role="presentation"
+>
+  <g
+    stroke="currentColor"
+    stroke-width={stroke}
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  >
+    <!-- outer petals -->
+    <path d="M100 150 C 70 138 40 116 26 84 C 48 92 82 118 100 150 Z" />
+    <path d="M100 150 C 130 138 160 116 174 84 C 152 92 118 118 100 150 Z" />
+    <!-- inner petals -->
+    <path d="M100 150 C 78 124 58 92 64 54 C 82 74 96 108 100 150 Z" />
+    <path d="M100 150 C 122 124 142 92 136 54 C 118 74 104 108 100 150 Z" />
+    <!-- center petal -->
+    <path d="M100 150 C 84 112 84 64 100 30 C 116 64 116 112 100 150 Z" />
+  </g>
+  {center && <circle cx="100" cy="143" r="7" fill="var(--lotus-center, #f4b72a)" />}
+</svg>

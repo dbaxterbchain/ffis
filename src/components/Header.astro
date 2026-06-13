@@ -1,0 +1,306 @@
+---
+/**
+ * Sticky site header. Transparent over the hero, turns solid (frosted) on
+ * scroll. On pages without a hero (`hasHero={false}`) it renders solid from
+ * the start. Includes a full-screen accessible mobile menu overlay.
+ */
+import BrandMark from './BrandMark.astro';
+import DonateButton from './DonateButton.astro';
+import { site } from '../config/site';
+
+interface Props {
+  hasHero?: boolean;
+}
+
+const { hasHero = true } = Astro.props;
+const { nav } = site;
+---
+
+<header
+  class:list={['site-header', { 'is-solid': !hasHero }]}
+  data-header
+  data-hero={hasHero ? '' : undefined}
+>
+  <div class="container site-header__inner">
+    <BrandMark class="site-header__brand" />
+
+    <div class="site-header__end">
+      <nav class="site-nav" aria-label="Primary">
+        <ul role="list" class="site-nav__list">
+          {
+            nav.map((item) => (
+              <li>
+                <a class="site-nav__link" href={item.href}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <DonateButton class="site-header__donate" />
+
+      <button
+        type="button"
+        class="nav-toggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-nav-toggle
+      >
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
+  <div class="container mobile-menu__top">
+    <BrandMark class="mobile-menu__brand" />
+    <button type="button" class="mobile-menu__close" aria-label="Close menu" data-menu-close>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+  <nav class="container mobile-menu__nav" aria-label="Mobile">
+    <ul role="list" class="mobile-menu__list">
+      {
+        nav.map((item) => (
+          <li>
+            <a class="mobile-menu__link" href={item.href} data-menu-link>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <DonateButton size="lg" class="mobile-menu__donate" />
+  </nav>
+</div>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: var(--z-header);
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    color: #fff;
+    transition:
+      background-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+  .site-header.is-solid {
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-text);
+  }
+
+  .site-header__end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+  .site-nav__link {
+    position: relative;
+    color: inherit;
+    font-weight: 500;
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    padding-block: 0.4rem;
+  }
+  .site-nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--grad-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease);
+  }
+  .site-nav__link:hover,
+  .site-nav__link:focus-visible {
+    text-decoration: none;
+  }
+  .site-nav__link:hover::after,
+  .site-nav__link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: -0.4rem;
+    border-radius: var(--radius-sm);
+    color: inherit;
+  }
+
+  /* ---- Mobile menu overlay ---- */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-overlay);
+    display: flex;
+    flex-direction: column;
+    background: var(--grad-hero);
+    color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dur) var(--ease),
+      visibility var(--dur) var(--ease);
+  }
+  .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .mobile-menu__top {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: none;
+  }
+  .mobile-menu__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: -0.4rem;
+    border-radius: var(--radius-sm);
+    color: #fff;
+  }
+  .mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-top: var(--space-7);
+    align-items: flex-start;
+  }
+  .mobile-menu__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .mobile-menu__link {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 1.3rem + 3vw, 2.6rem);
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    padding-block: 0.35rem;
+  }
+  .mobile-menu__link:hover {
+    text-decoration: none;
+    color: var(--ffis-gold-400);
+  }
+
+  /* ---- Responsive switch ---- */
+  @media (max-width: 880px) {
+    .site-nav,
+    .site-header__donate {
+      display: none;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const menu = document.querySelector('[data-mobile-menu]');
+
+  // Solid-on-scroll (only when the header sits over a hero).
+  if (header instanceof HTMLElement && header.hasAttribute('data-hero')) {
+    const onScroll = () => {
+      header.classList.toggle('is-solid', window.scrollY > 24);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (toggle instanceof HTMLElement && menu instanceof HTMLElement) {
+    const closeBtn = menu.querySelector('[data-menu-close]');
+    const links = menu.querySelectorAll('[data-menu-link]');
+
+    const focusables = () =>
+      Array.from(
+        menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+      );
+
+    const onKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    const openMenu = () => {
+      menu.classList.add('is-open');
+      menu.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      focusables()[0]?.focus();
+      document.addEventListener('keydown', onKeydown);
+    };
+
+    const closeMenu = () => {
+      menu.classList.remove('is-open');
+      menu.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeydown);
+      toggle.focus();
+    };
+
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      open ? closeMenu() : openMenu();
+    });
+    closeBtn?.addEventListener('click', closeMenu);
+    links.forEach((link) => link.addEventListener('click', closeMenu));
+  }
+</script>

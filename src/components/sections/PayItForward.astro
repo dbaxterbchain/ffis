@@ -1,0 +1,53 @@
+---
+import ProjectSection from '../ProjectSection.astro';
+import SectionHeading from '../SectionHeading.astro';
+import StepFlow from '../StepFlow.astro';
+import Button from '../Button.astro';
+import DonateButton from '../DonateButton.astro';
+import { site } from '../../config/site';
+---
+
+<ProjectSection id="pay-it-forward" labelledby="pif-title" alt>
+  <SectionHeading
+    kicker="Innovation in action"
+    titleId="pif-title"
+    title="Pay It Forward — a community that feeds its neighbors"
+  >
+    <p>
+      Our first program is already live. Pay It Forward lets anyone buy a
+      healthy meal for someone experiencing homelessness — prepared with dignity
+      by local restaurants — while people take steps toward fuller participation
+      in society.
+    </p>
+  </SectionHeading>
+
+  <div class="pif__steps">
+    <StepFlow />
+  </div>
+
+  <div class="pif__actions">
+    <DonateButton size="lg" label="Donate a meal" />
+    <Button
+      variant="primary"
+      size="lg"
+      href={site.pifUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      See it live at pifboard.com
+      <span aria-hidden="true">↗</span>
+    </Button>
+  </div>
+</ProjectSection>
+
+<style>
+  .pif__steps {
+    margin-top: var(--space-8);
+  }
+  .pif__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+  }
+</style>

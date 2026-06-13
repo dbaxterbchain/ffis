@@ -1,0 +1,65 @@
+---
+import Button from './Button.astro';
+import { site } from '../config/site';
+
+interface Props {
+  title: string;
+  text: string;
+  buttonLabel?: string;
+  email?: string;
+}
+
+const {
+  title,
+  text,
+  buttonLabel = 'Email the team',
+  email = site.contactEmail,
+} = Astro.props;
+---
+
+<div class="contact-cta">
+  <div class="contact-cta__text">
+    <h3 class="contact-cta__title">{title}</h3>
+    <p class="contact-cta__body">{text}</p>
+  </div>
+  <Button href={`mailto:${email}`} variant="primary" class="contact-cta__btn">
+    {buttonLabel}
+  </Button>
+</div>
+
+<style>
+  .contact-cta {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    padding: var(--space-6) var(--space-7);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+  .contact-cta::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--grad-accent);
+  }
+  .contact-cta__title {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-2);
+  }
+  .contact-cta__body {
+    color: var(--color-text-muted);
+    max-width: 44ch;
+  }
+  .contact-cta__btn {
+    flex: none;
+  }
+</style>
