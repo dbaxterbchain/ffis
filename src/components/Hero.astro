@@ -56,7 +56,7 @@ import LotusMotif from './LotusMotif.astro';
     z-index: -1;
     overflow: hidden;
   }
-  .hero__lotus {
+  .hero :global(.hero__lotus) {
     position: absolute;
     top: 50%;
     right: -6%;
@@ -179,7 +179,7 @@ import LotusMotif from './LotusMotif.astro';
       min-height: auto;
       padding-block: calc(var(--header-h) + var(--space-8)) var(--space-9);
     }
-    .hero__lotus {
+    .hero :global(.hero__lotus) {
       opacity: 0.08;
       right: -20%;
     }
