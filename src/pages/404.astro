@@ -1,13 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
-import LotusMotif from '../components/LotusMotif.astro';
 ---
 
 <BaseLayout title="Page not found" description="This page could not be found.">
   <section class="section">
     <div class="container container-narrow notfound">
-      <LotusMotif class="notfound__lotus" stroke={4} />
+      <img class="notfound__lotus" src="/logo-lotus.png" alt="" aria-hidden="true" width="320" height="172" />
       <p class="eyebrow">Error 404</p>
       <h1 class="notfound__title">This page wandered off</h1>
       <p class="notfound__lead">

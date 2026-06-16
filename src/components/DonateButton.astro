@@ -1,7 +1,8 @@
 ---
 /**
- * Donate call-to-action. Always bound to `site.donateUrl` so the destination
- * lives in exactly one place (swap to the every.org URL at launch).
+ * Donate call-to-action. Defaults to `site.donateUrl` so the general donate
+ * destination lives in one place (swap to the every.org URL at launch). Pass
+ * `href` to point a specific button elsewhere (e.g. the pay-it-forward board).
  */
 import Button from './Button.astro';
 import { site } from '../config/site';
@@ -10,6 +11,7 @@ interface Props {
   size?: 'md' | 'lg';
   variant?: 'gold' | 'primary' | 'ghost';
   label?: string;
+  href?: string;
   class?: string;
 }
 
@@ -17,15 +19,18 @@ const {
   size = 'md',
   variant = 'gold',
   label = 'Donate',
+  href,
   class: className,
 } = Astro.props;
 
-const external = site.donateIsExternal;
+const url = href ?? site.donateUrl;
+// An explicit href is treated as an external link; otherwise defer to config.
+const external = href ? true : site.donateIsExternal;
 const attrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 ---
 
 <Button
-  href={site.donateUrl}
+  href={url}
   variant={variant}
   size={size}
   class={className}

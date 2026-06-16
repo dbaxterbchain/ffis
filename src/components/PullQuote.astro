@@ -4,16 +4,18 @@ import LotusMotif from './LotusMotif.astro';
 interface Props {
   text: string;
   author: string;
+  role?: string;
 }
 
-const { text, author } = Astro.props;
+const { text, author, role } = Astro.props;
 ---
 
 <aside class="pullquote">
-  <LotusMotif class="pullquote__lotus" stroke={2.5} center={false} />
+  <LotusMotif class="pullquote__lotus" />
   <div class="container pullquote__inner">
     <p class="pullquote__text">&ldquo;{text}&rdquo;</p>
     <p class="pullquote__author">{author}</p>
+    {role && <p class="pullquote__role">{role}</p>}
   </div>
 </aside>
 
@@ -56,5 +58,10 @@ const { text, author } = Astro.props;
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.78);
+  }
+  .pullquote__role {
+    margin-top: 0.25rem;
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.6);
   }
 </style>

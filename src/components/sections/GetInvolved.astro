@@ -3,6 +3,7 @@ import ProjectSection from '../ProjectSection.astro';
 import SectionHeading from '../SectionHeading.astro';
 import DonateCTA from '../DonateCTA.astro';
 import ContactCTA from '../ContactCTA.astro';
+import InvolvementForm from '../InvolvementForm.astro';
 ---
 
 <ProjectSection id="get-involved" labelledby="gi-title">
@@ -23,7 +24,8 @@ import ContactCTA from '../ContactCTA.astro';
       kicker="For donors"
       title="Pay a meal forward"
       text="Your gift puts a healthy meal in the hands of someone who needs it — and fuels the Foundation's wider work on food resilience."
-      label="Donate now"
+      label="Donate a Meal"
+      href="https://pifboard.com/donate"
       note="The Foundation for Innovation in Society is a registered 501(c)(3) nonprofit. Donations are tax-deductible to the extent allowed by law."
     />
 
@@ -40,6 +42,10 @@ import ContactCTA from '../ContactCTA.astro';
       />
     </div>
   </div>
+
+  <div class="gi__form">
+    <InvolvementForm />
+  </div>
 </ProjectSection>
 
 <style>
@@ -52,6 +58,11 @@ import ContactCTA from '../ContactCTA.astro';
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-5);
+  }
+  .gi__form {
+    margin-top: var(--space-8);
+    max-width: 640px;
+    margin-inline: auto;
   }
 
   @media (max-width: 760px) {

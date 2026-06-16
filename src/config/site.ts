@@ -28,13 +28,12 @@ export const site = {
   foundedYear: 2025,
 
   /**
-   * TODO(launch): replace with the live every.org donate URL once the
-   * 501(c)(3) profile is claimed (e.g. https://www.every.org/<slug>).
-   * Until then it points at the on-site /donate placeholder page so the
-   * button is real and wired.
+   * Donate destination for the general donate buttons (header, hero, footer).
+   * Points at the pay-it-forward board. (May move to an every.org URL later
+   * once the 501(c)(3) profile is claimed.)
    */
-  donateUrl: '/donate',
-  donateIsExternal: false,
+  donateUrl: 'https://pifboard.com/donate',
+  donateIsExternal: true,
 
   /** TODO(launch): add the IRS EIN to surface the tax-deductible footer line. */
   ein: null as string | null,

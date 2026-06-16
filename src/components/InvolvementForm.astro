@@ -1,0 +1,283 @@
+---
+/**
+ * "Get involved" interest form. The site is static (no backend), so on submit
+ * the form builds a pre-filled email (subject + body) and opens the visitor's
+ * email client via a `mailto:` link to `site.contactEmail` — the same pattern
+ * used by the donate page. The chosen reason, plus contact details, give us a
+ * structured starting point for following up.
+ */
+import { site } from '../config/site';
+
+interface Props {
+  title?: string;
+  intro?: string;
+  email?: string;
+}
+
+const {
+  title = "Tell us how you'd like to help",
+  intro = 'Share a little about how you want to get involved and we’ll follow up with next steps.',
+  email = site.contactEmail,
+} = Astro.props;
+
+const OTHER = 'other';
+
+// Single source of truth for the dropdown options.
+const interestOptions: { value: string; label: string }[] = [
+  { value: 'volunteer', label: 'Volunteer' },
+  { value: 'restaurant-partner', label: 'Restaurant / food-business partner' },
+  { value: 'logistics-partner', label: 'Distribution / logistics partner' },
+  { value: 'donate-sponsor', label: 'Donate / sponsor meals' },
+  { value: 'bring-to-city', label: 'Bring a project to my city' },
+  { value: 'spread-the-word', label: 'Spread the word' },
+  { value: OTHER, label: 'Other' },
+];
+---
+
+<form class="iform" novalidate data-email={email} data-other={OTHER}>
+  <div class="iform__head">
+    <h3 class="iform__title">{title}</h3>
+    <p class="iform__intro">{intro}</p>
+  </div>
+
+  <div class="iform__field">
+    <label for="gi-interest">
+      How would you like to get involved? <span class="iform__req" aria-hidden="true">*</span>
+    </label>
+    <select id="gi-interest" name="interest" required aria-required="true">
+      <option value="" disabled selected>Select one…</option>
+      {interestOptions.map((opt) => <option value={opt.value}>{opt.label}</option>)}
+    </select>
+  </div>
+
+  <div class="iform__field" id="gi-other-wrap" hidden aria-hidden="true">
+    <label for="gi-other">
+      Tell us more <span class="iform__req" aria-hidden="true">*</span>
+    </label>
+    <input id="gi-other" name="other" type="text" placeholder="Describe how you'd like to help" />
+  </div>
+
+  <div class="iform__row">
+    <div class="iform__field">
+      <label for="gi-name">
+        Name <span class="iform__req" aria-hidden="true">*</span>
+      </label>
+      <input id="gi-name" name="name" type="text" required aria-required="true" autocomplete="name" />
+    </div>
+    <div class="iform__field">
+      <label for="gi-email">
+        Email <span class="iform__req" aria-hidden="true">*</span>
+      </label>
+      <input id="gi-email" name="email" type="email" required aria-required="true" autocomplete="email" />
+    </div>
+  </div>
+
+  <div class="iform__row">
+    <div class="iform__field">
+      <label for="gi-phone">Phone <span class="iform__opt">(optional)</span></label>
+      <input id="gi-phone" name="phone" type="tel" autocomplete="tel" />
+    </div>
+    <div class="iform__field">
+      <label for="gi-org">Organization <span class="iform__opt">(optional)</span></label>
+      <input id="gi-org" name="organization" type="text" autocomplete="organization" />
+    </div>
+  </div>
+
+  <div class="iform__field">
+    <label for="gi-message">Message <span class="iform__opt">(optional)</span></label>
+    <textarea id="gi-message" name="message" rows="4" placeholder="Anything else you'd like us to know?"></textarea>
+  </div>
+
+  <button type="submit" class="iform__submit">Send via email</button>
+  <p id="gi-status" class="iform__status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  // Practical mailto length ceiling; some clients/Windows truncate long URLs.
+  const MAX_URL = 1800;
+
+  document.querySelectorAll<HTMLFormElement>('form.iform').forEach((form) => {
+    const select = form.querySelector<HTMLSelectElement>('#gi-interest')!;
+    const otherWrap = form.querySelector<HTMLElement>('#gi-other-wrap')!;
+    const otherInput = form.querySelector<HTMLInputElement>('#gi-other')!;
+    const status = form.querySelector<HTMLElement>('#gi-status')!;
+    const otherValue = form.dataset.other ?? 'other';
+    const email = form.dataset.email ?? '';
+
+    // Show the custom-reason field only when "Other" is selected. Its required
+    // state is managed here (not in markup) so a hidden field never silently
+    // blocks submit.
+    select.addEventListener('change', () => {
+      const isOther = select.value === otherValue;
+      otherWrap.hidden = !isOther;
+      otherWrap.setAttribute('aria-hidden', String(!isOther));
+      otherInput.required = isOther;
+      if (isOther) {
+        otherInput.focus();
+      } else {
+        otherInput.value = '';
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const val = (sel: string) =>
+        (form.querySelector<HTMLInputElement | HTMLTextAreaElement>(sel)?.value ?? '').trim();
+
+      const isOther = select.value === otherValue;
+      const interestLabel = isOther
+        ? val('#gi-other')
+        : (select.selectedOptions[0]?.text ?? '');
+
+      // Body: only the fields the visitor actually filled, in a stable order.
+      const lines: string[] = [];
+      const add = (label: string, value: string) => {
+        if (value) lines.push(`${label}: ${value}`);
+      };
+      add('Name', val('#gi-name'));
+      add('Email', val('#gi-email'));
+      add('Phone', val('#gi-phone'));
+      add('Organization', val('#gi-org'));
+      add('Interest', interestLabel);
+
+      const message = val('#gi-message');
+      if (message) lines.push('', 'Message:', message);
+
+      const subject = `Get involved: ${interestLabel}`;
+      const build = (body: string) =>
+        `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      let url = build(lines.join('\n'));
+      if (url.length > MAX_URL && message) {
+        // Trim the freeform message so the mailto URL stays within client limits.
+        const overflow = url.length - MAX_URL;
+        const note = '\n…(message truncated — please paste the rest)';
+        const trimmed = message.slice(0, Math.max(0, message.length - overflow - note.length)) + note;
+        const trimmedLines = lines.slice(0, lines.indexOf('Message:') + 1).concat(trimmed);
+        url = build(trimmedLines.join('\n'));
+      }
+
+      status.textContent = 'Opening your email app…';
+      window.location.href = url;
+    });
+  });
+</script>
+
+<style>
+  .iform {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-6) var(--space-7);
+  }
+  .iform::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--grad-accent);
+  }
+  .iform__head {
+    margin-bottom: var(--space-5);
+  }
+  .iform__title {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-2);
+  }
+  .iform__intro {
+    color: var(--color-text-muted);
+  }
+  .iform__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+  .iform__field {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+  }
+  .iform__field label {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+  .iform__req {
+    color: var(--color-accent);
+  }
+  .iform__opt {
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+  .iform input,
+  .iform select,
+  .iform textarea {
+    width: 100%;
+    padding: var(--space-3);
+    font: inherit;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .iform textarea {
+    resize: vertical;
+  }
+  .iform input:focus-visible,
+  .iform select:focus-visible,
+  .iform textarea:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(214, 36, 138, 0.18);
+  }
+  .iform__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.45rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    line-height: 1;
+    color: #fff;
+    background: var(--color-primary);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition:
+      transform var(--dur) var(--ease),
+      background-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+  .iform__submit:hover {
+    background: var(--color-primary-strong);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .iform__submit:active {
+    transform: translateY(0);
+  }
+  .iform__status {
+    margin-top: var(--space-3);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+  .iform__status:empty {
+    margin-top: 0;
+  }
+
+  @media (max-width: 560px) {
+    .iform__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

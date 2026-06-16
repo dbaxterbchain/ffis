@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
-import LotusMotif from '../components/LotusMotif.astro';
 import { site } from '../config/site';
 
 /*
@@ -24,7 +23,7 @@ const mailto = `mailto:${site.contactEmail}?subject=${encodeURIComponent(
 >
   <section class="section">
     <div class="container container-narrow donate">
-      <LotusMotif class="donate__lotus" stroke={4} />
+      <img class="donate__lotus" src="/logo-lotus.png" alt="" aria-hidden="true" width="320" height="172" />
       <p class="eyebrow">Support our work</p>
       <h1 class="donate__title">Online donations are launching soon</h1>
       <p class="donate__lead">

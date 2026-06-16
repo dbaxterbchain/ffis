@@ -1,12 +1,9 @@
 ---
 /**
- * Brand lockup: lotus mark + wordmark. Inherits `color` (currentColor) so the
- * header can flip it light/dark by scroll state. Renders a link by default.
- *
- * TODO(assets): swap the lotus + text lockup for the official logo vector.
+ * Brand lockup: official lotus mark + wordmark. The wordmark inherits `color`
+ * (currentColor) so the header can flip it light/dark by scroll state; the
+ * lotus is the fixed multicolor mark and reads on both light and dark.
  */
-import LotusMotif from './LotusMotif.astro';
-
 interface Props {
   href?: string | null;
   class?: string;
@@ -21,7 +18,7 @@ const Tag = href ? 'a' : 'div';
   href={href ?? undefined}
   aria-label="Foundation for Innovation in Society — home"
 >
-  <LotusMotif class="brand__mark" stroke={6} />
+  <img class="brand__mark" src="/logo-lotus.png" alt="" width="320" height="172" />
   <span class="brand__text" aria-hidden="true">
     <span class="brand__kicker">Foundation for</span>
     <span class="brand__name">Innovation in Society</span>
@@ -32,7 +29,7 @@ const Tag = href ? 'a' : 'div';
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.7rem;
     color: inherit;
     text-decoration: none;
     line-height: 1;
@@ -40,8 +37,9 @@ const Tag = href ? 'a' : 'div';
   .brand:hover {
     text-decoration: none;
   }
-  .brand :global(.brand__mark) {
-    width: 2.4rem;
+  .brand__mark {
+    display: block;
+    width: 3.25rem;
     height: auto;
     flex: none;
   }
@@ -52,7 +50,7 @@ const Tag = href ? 'a' : 'div';
   }
   .brand__kicker {
     font-family: var(--font-body);
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -62,7 +60,7 @@ const Tag = href ? 'a' : 'div';
     font-family: var(--font-display);
     font-optical-sizing: auto;
     font-weight: 600;
-    font-size: 1.15rem;
+    font-size: 1.4rem;
     letter-spacing: -0.01em;
   }
 </style>
