@@ -28,15 +28,15 @@ export const site = {
   foundedYear: 2025,
 
   /**
-   * Donate destination for the general donate buttons (header, hero, footer).
-   * Points at the pay-it-forward board. (May move to an every.org URL later
-   * once the 501(c)(3) profile is claimed.)
+   * Destination for the general "Donate" buttons (header, footer, mobile menu):
+   * the every.org donation form. The `#/donate` suffix opens the form directly.
+   * The "Donate a meal" buttons pin their own href to the pay-it-forward board.
    */
-  donateUrl: 'https://pifboard.com/donate',
+  donateUrl: 'https://www.every.org/foundation-for-innovation-in-society#/donate',
   donateIsExternal: true,
 
-  /** TODO(launch): add the IRS EIN to surface the tax-deductible footer line. */
-  ein: null as string | null,
+  /** IRS EIN — surfaces the EIN in the footer's tax-deductible legal line. */
+  ein: '33-2320329' as string | null,
 
   /** The Foundation's first project. */
   pifUrl: 'https://pifboard.com',

@@ -8,6 +8,13 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# /donate is a shareable short link (flyers, QR) -> every.org donation form.
+[[redirects]]
+  from = "/donate"
+  to = "https://www.every.org/foundation-for-innovation-in-society#/donate"
+  status = 302
+  force = true
+
 # Astro emits content-hashed, immutable assets under /_astro/* — cache them hard.
 [[headers]]
   for = "/_astro/*"
